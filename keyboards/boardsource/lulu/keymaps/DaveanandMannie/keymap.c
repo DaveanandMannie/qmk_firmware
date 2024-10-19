@@ -43,6 +43,15 @@ void oneshot_mods_changed_user(uint8_t mods) {
         rgb_matrix_set_speed(25);
     }
 }
+void oneshot_locked_mods_changed_user(uint8_t mods) {
+    if (mods & MOD_MASK_SHIFT) {
+        rgb_matrix_set_speed(40);
+    } else {
+        rgb_matrix_set_speed(25);
+    }
+}
+
+
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
