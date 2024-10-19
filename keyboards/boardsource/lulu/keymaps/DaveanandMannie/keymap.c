@@ -18,7 +18,7 @@ layer_state_t layer_state_set_user(layer_state_t state) {
             rgb_matrix_set_speed(25);
             break;
         case _FIRST:
-            rgb_matrix_set_speed(96);
+            rgb_matrix_set_speed(76);
 
             break;
         case _SECOND:
