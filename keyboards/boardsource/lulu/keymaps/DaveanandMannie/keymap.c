@@ -9,45 +9,54 @@ enum layers {
     _THIRD
 };
 
+#define SPD_BASE 25
+#define SPD_FIRST 76
+#define SPD_SECOND 120
+#define SPD_THIRD 160
+#define SPD_SHFT 40
+
 // change mod row colours based on active layer
 layer_state_t layer_state_set_user(layer_state_t state) {
     uint8_t layer = get_highest_layer(state);
 
     switch (layer) {
         case _BASE:
-            rgb_matrix_set_speed(25);
+            rgb_matrix_set_speed(SPD_BASE);
             break;
         case _FIRST:
-            rgb_matrix_set_speed(76);
+            rgb_matrix_set_speed(SPD_FIRST);
 
             break;
         case _SECOND:
-            rgb_matrix_set_speed(100);
+            rgb_matrix_set_speed(SPD_SECOND);
             break;
         case _THIRD:
-            rgb_matrix_set_speed(160);
+            rgb_matrix_set_speed(SPD_THIRD);
             break;
         default:
-            rgb_matrix_set_speed(25);
+            rgb_matrix_set_speed(SPD_BASE);
             break;
     }
 
     return state;
 }
+
 // change mod row when osm shf is on
 void oneshot_mods_changed_user(uint8_t mods) {
     // Check if Shift is active
     if (mods & MOD_MASK_SHIFT) {
-        rgb_matrix_set_speed(40);
+        rgb_matrix_set_speed(SPD_SHFT);
     } else {
-        rgb_matrix_set_speed(25);
+        rgb_matrix_set_speed(SPD_BASE);
     }
 }
+
+// change mod row when osm toggle shf is on
 void oneshot_locked_mods_changed_user(uint8_t mods) {
     if (mods & MOD_MASK_SHIFT) {
-        rgb_matrix_set_speed(40);
+        rgb_matrix_set_speed(SPD_SHFT);
     } else {
-        rgb_matrix_set_speed(25);
+        rgb_matrix_set_speed(SPD_BASE);
     }
 }
 
@@ -62,7 +71,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * | Tab  |   Q  |   W  |   E  |   R  |   T  |                    |   Y  |   U  |   I  |   O  |   P  |  =   |
  * |------+------+------+------+------+------|                    |------+------+------+------+------+------|
  * |Escape|   A  |   S  |   D  |   F  |   G  |-------.    ,-------|   H  |   J  |   K  |   L  |   ;  |  '   |
- * |------+------+------+------+------+------|  mo 3 |    | tt l2 |------+------+------+------+------+------|
+ * |------+------+------+------+------+------|  mo 3 |    | tg l2 |------+------+------+------+------+------|
  * |OSM-sft|   Z |   X  |   C  |   V  |   B  |-------|    |-------|   N  |   M  |   ,  |   .  |   /  |OSM-sft|
  * `-----------------------------------------/ osl   /     \      \-----------------------------------------'
  *                   |  Win | Lctrl| L-alt| / first /       \space \  |Enter |R-ctrl| Ralt |
@@ -74,7 +83,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_BSPC,       KC_1, KC_2, KC_3, KC_4, KC_5,                         KC_6, KC_7, KC_8,    KC_9,   KC_0,    KC_MINS,
   KC_TAB,        KC_Q, KC_W, KC_E, KC_R, KC_T,                         KC_Y, KC_U, KC_I,    KC_O,   KC_P,    KC_EQL,
   KC_ESC,        KC_A, KC_S, KC_D, KC_F, KC_G,                         KC_H, KC_J, KC_K,    KC_L,   KC_SCLN, KC_QUOT,
-  OSM(MOD_LSFT), KC_Z, KC_X, KC_C, KC_V, KC_B, MO(_THIRD),      TT(_SECOND),  KC_N, KC_M, KC_COMM, KC_DOT, KC_SLSH,OSM(MOD_RSFT),
+  OSM(MOD_LSFT), KC_Z, KC_X, KC_C, KC_V, KC_B, MO(_THIRD),      TG(_SECOND),  KC_N, KC_M, KC_COMM, KC_DOT, KC_SLSH,OSM(MOD_RSFT),
                 KC_LWIN, KC_LCTL, KC_LALT, OSL(_FIRST),       KC_SPC,   KC_ENT, KC_RCTL, KC_RALT
 ),
 /* FIRST
