@@ -15,28 +15,49 @@ enum layers {
 #define SPD_THIRD 160
 #define SPD_SHFT 40
 
+void layer_handler(uint8_t layer) {
+switch (layer) {
+    case _BASE:
+        rgb_matrix_set_speed(SPD_BASE);
+        break;
+    case _FIRST:
+        rgb_matrix_set_speed(SPD_FIRST);
+
+        break;
+    case _SECOND:
+        rgb_matrix_set_speed(SPD_SECOND);
+        break;
+    case _THIRD:
+        rgb_matrix_set_speed(SPD_THIRD);
+        break;
+    default:
+        rgb_matrix_set_speed(SPD_BASE);
+        break;
+    }
+}
+
 // change mod row colours based on active layer
 layer_state_t layer_state_set_user(layer_state_t state) {
     uint8_t layer = get_highest_layer(state);
-
-    switch (layer) {
-        case _BASE:
-            rgb_matrix_set_speed(SPD_BASE);
-            break;
-        case _FIRST:
-            rgb_matrix_set_speed(SPD_FIRST);
-
-            break;
-        case _SECOND:
-            rgb_matrix_set_speed(SPD_SECOND);
-            break;
-        case _THIRD:
-            rgb_matrix_set_speed(SPD_THIRD);
-            break;
-        default:
-            rgb_matrix_set_speed(SPD_BASE);
-            break;
-    }
+    layer_handler(layer);
+    // switch (layer) {
+    //     case _BASE:
+    //         rgb_matrix_set_speed(SPD_BASE);
+    //         break;
+    //     case _FIRST:
+    //         rgb_matrix_set_speed(SPD_FIRST);
+    //
+    //         break;
+    //     case _SECOND:
+    //         rgb_matrix_set_speed(SPD_SECOND);
+    //         break;
+    //     case _THIRD:
+    //         rgb_matrix_set_speed(SPD_THIRD);
+    //         break;
+    //     default:
+    //         rgb_matrix_set_speed(SPD_BASE);
+    //         break;
+    // }
 
     return state;
 }
@@ -47,7 +68,8 @@ void oneshot_mods_changed_user(uint8_t mods) {
     if (mods & MOD_MASK_SHIFT) {
         rgb_matrix_set_speed(SPD_SHFT);
     } else {
-        rgb_matrix_set_speed(SPD_BASE);
+        uint8_t layer = get_highest_layer(layer_state);
+        layer_handler(layer);
     }
 }
 
@@ -56,7 +78,8 @@ void oneshot_locked_mods_changed_user(uint8_t mods) {
     if (mods & MOD_MASK_SHIFT) {
         rgb_matrix_set_speed(SPD_SHFT);
     } else {
-        rgb_matrix_set_speed(SPD_BASE);
+        uint8_t layer = get_highest_layer(layer_state);
+        layer_handler(layer);
     }
 }
 
