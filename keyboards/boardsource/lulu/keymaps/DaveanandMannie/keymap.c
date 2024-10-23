@@ -16,55 +16,35 @@ enum layers {
 #define SPD_SHFT 40
 
 void layer_handler(uint8_t layer) {
-switch (layer) {
-    case _BASE:
-        rgb_matrix_set_speed(SPD_BASE);
-        break;
-    case _FIRST:
-        rgb_matrix_set_speed(SPD_FIRST);
-
-        break;
-    case _SECOND:
-        rgb_matrix_set_speed(SPD_SECOND);
-        break;
-    case _THIRD:
-        rgb_matrix_set_speed(SPD_THIRD);
-        break;
-    default:
-        rgb_matrix_set_speed(SPD_BASE);
-        break;
+    // Handler for changing alpha mode spd == hue
+    switch (layer) {
+        case _BASE:
+            rgb_matrix_set_speed(SPD_BASE);
+            break;
+        case _FIRST:
+            rgb_matrix_set_speed(SPD_FIRST);
+            break;
+        case _SECOND:
+            rgb_matrix_set_speed(SPD_SECOND);
+            break;
+        case _THIRD:
+            rgb_matrix_set_speed(SPD_THIRD);
+            break;
+        default:
+            rgb_matrix_set_speed(SPD_BASE);
+            break;
     }
 }
 
-// change mod row colours based on active layer
 layer_state_t layer_state_set_user(layer_state_t state) {
+// [callback] change mod row colours based on active layer
     uint8_t layer = get_highest_layer(state);
     layer_handler(layer);
-    // switch (layer) {
-    //     case _BASE:
-    //         rgb_matrix_set_speed(SPD_BASE);
-    //         break;
-    //     case _FIRST:
-    //         rgb_matrix_set_speed(SPD_FIRST);
-    //
-    //         break;
-    //     case _SECOND:
-    //         rgb_matrix_set_speed(SPD_SECOND);
-    //         break;
-    //     case _THIRD:
-    //         rgb_matrix_set_speed(SPD_THIRD);
-    //         break;
-    //     default:
-    //         rgb_matrix_set_speed(SPD_BASE);
-    //         break;
-    // }
-
     return state;
 }
 
-// change mod row when osm shf is on
 void oneshot_mods_changed_user(uint8_t mods) {
-    // Check if Shift is active
+    // [callback] change mod row when osm shf is on
     if (mods & MOD_MASK_SHIFT) {
         rgb_matrix_set_speed(SPD_SHFT);
     } else {
@@ -73,8 +53,8 @@ void oneshot_mods_changed_user(uint8_t mods) {
     }
 }
 
-// change mod row when osm toggle shf is on
 void oneshot_locked_mods_changed_user(uint8_t mods) {
+    // [callback] change mod row when osm toggle shft is on
     if (mods & MOD_MASK_SHIFT) {
         rgb_matrix_set_speed(SPD_SHFT);
     } else {
@@ -82,8 +62,6 @@ void oneshot_locked_mods_changed_user(uint8_t mods) {
         layer_handler(layer);
     }
 }
-
-
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
