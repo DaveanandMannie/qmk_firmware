@@ -63,6 +63,31 @@ void oneshot_locked_mods_changed_user(uint8_t mods) {
     }
 }
 
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case KC_LALT:
+        case KC_RALT:
+            if (record->event.pressed) {
+                rgb_matrix_set_speed(201);
+            } else {
+                uint8_t layer = get_highest_layer(layer_state);
+                layer_handler(layer);
+            }
+            break;
+
+        case KC_LCTL:
+        case KC_RCTL:
+            if (record->event.pressed) {
+                rgb_matrix_set_speed(240);
+            } else {
+                uint8_t layer = get_highest_layer(layer_state);
+                layer_handler(layer);
+            }
+            break;
+    }
+    return true;
+}
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 /* BASE
