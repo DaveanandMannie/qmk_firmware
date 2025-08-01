@@ -43,25 +43,6 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     return state;
 }
 
-void oneshot_mods_changed_user(uint8_t mods) {
-    // [callback] change mod row when osm shf is on
-    if (mods & MOD_MASK_SHIFT) {
-        rgb_matrix_set_speed(SPD_SHFT);
-    } else {
-        uint8_t layer = get_highest_layer(layer_state);
-        layer_handler(layer);
-    }
-}
-
-void oneshot_locked_mods_changed_user(uint8_t mods) {
-    // [callback] change mod row when osm toggle shft is on
-    if (mods & MOD_MASK_SHIFT) {
-        rgb_matrix_set_speed(SPD_SHFT);
-    } else {
-        uint8_t layer = get_highest_layer(layer_state);
-        layer_handler(layer);
-    }
-}
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
@@ -79,6 +60,15 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case KC_RCTL:
             if (record->event.pressed) {
                 rgb_matrix_set_speed(240);
+            } else {
+                uint8_t layer = get_highest_layer(layer_state);
+                layer_handler(layer);
+            }
+            break;
+        case KC_LSFT:
+        case KC_RSFT:
+            if (record->event.pressed) {
+                rgb_matrix_set_speed(SPD_SHFT);
             } else {
                 uint8_t layer = get_highest_layer(layer_state);
                 layer_handler(layer);
